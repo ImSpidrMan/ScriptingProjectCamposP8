@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Rigidbody bulletPrefab;
+    public Transform firePosition;
+    public float bulletSpeed;
 
-    // Update is called once per frame
+    private Inventory inventory;
+
+    private void Awake()
+    {
+        inventory = GetComponent<Inventory>();
+    }
     void Update()
     {
-        
+        Shoot();
+    }
+
+    void Shoot ()
+    {
+        if(Input.GetButtonDown("Fire1") && inventory.myStuff.bullets > 0)
+        {
+            Rigidbody bulletInstance = Instantiate(bulletPrefab, firePosition.position, firePosition.rotation) as Rigidbody;
+            bulletInstance.AddForce(firePosition.forward * bulletSpeed);
+            inventory.myStuff.bullets--;
+        }
     }
 }
